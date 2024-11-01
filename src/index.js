@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     res.send("Bienvenido a mi servidor web")
 })
 
-const port = process.env.port
+const port = process.env.PORT
 app.listen(port, () => {
     console.log("Servidor escuchando en el puerto: " + port)
 })

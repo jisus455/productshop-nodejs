@@ -1,4 +1,4 @@
-const getConnection = require('../data/mysql')
+const getConnection = require('../data/postgresql')
 
 class ProductosService {
     constructor() { }
@@ -9,7 +9,7 @@ class ProductosService {
             const select =
                 "SELECT productos.Id, productos.Nombre, productos.Descripcion, productos.Precio, productos.IdCategoria, productos.Imagen, categorias.Descripcion as DescripcionCategoria, productos.IdUserAlta, a.Nombre as NombreAlta, a.Apellido as ApellidoAlta, productos.FechaAlta, productos.IdUserModificacion, b.Nombre as NombreModificacion, b.Apellido as ApellidoModificacion, productos.FechaModificacion FROM productos LEFT JOIN usuarios a ON(productos.IdUserAlta = a.Id) LEFT JOIN usuarios b ON(productos.IdUserModificacion = b.Id) INNER JOIN categorias ON(productos.IdCategoria = categorias.Id) WHERE productos.FechaBaja IS NULL"
             const query = await connection.query(select)
-            return query
+            return query.rows
         }
 
         let select =
@@ -29,7 +29,7 @@ class ProductosService {
 
         const connection = await getConnection()
         const query = await connection.query(select)
-        return query
+        return query.rows
     }
 
     async getProductosById(id) {
@@ -38,7 +38,7 @@ class ProductosService {
             "SELECT productos.Id, productos.Nombre, productos.Descripcion, productos.Precio, productos.IdCategoria, productos.Imagen, categorias.Descripcion as DescripcionCategoria, productos.IdUserAlta, a.Nombre as NombreAlta, a.Apellido as ApellidoAlta, productos.FechaAlta, productos.IdUserModificacion, b.Nombre as NombreModificacion, b.Apellido as ApellidoModificacion, productos.FechaModificacion, productos.IdUserBaja, c.Nombre as NombreBaja, c.Apellido as ApellidoBaja, productos.FechaBaja FROM productos LEFT JOIN usuarios a ON(productos.IdUserAlta = a.Id) LEFT JOIN usuarios b ON(productos.IdUserModificacion = b.Id) LEFT JOIN usuarios c ON(productos.IdUserBaja = c.Id) INNER JOIN categorias ON(productos.IdCategoria = categorias.Id) WHERE productos.Id = ?"
         const selectValues = [id]
         const query = await connection.query(select, selectValues)
-        return query
+        return query.rows
     }
 
     async postProductos(producto) {

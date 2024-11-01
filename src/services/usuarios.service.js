@@ -1,4 +1,4 @@
-const getConnection = require('../data/mysql')
+const getConnection = require('../data/postgresql')
 const { sign, getToken, decode } = require('../utils/jwt')
 const bcrypt = require('bcrypt')
 
@@ -15,21 +15,21 @@ class UsuariosService {
 
     async postLogin(login) {
         const connection = await getConnection()
-        const usuario = await connection.query("SELECT Id, Usuario, Clave, Nombre, Apellido, EsAdmin FROM usuarios WHERE Usuario = ?", [login.usuario])
+        const query = await connection.query("SELECT Id, Usuario, Clave, Nombre, Apellido, EsAdmin FROM usuarios WHERE Usuario = $1", [login.usuario])
         
-        if (usuario.length === 0){
+        if (query.rows.length === 0){
             const error = new Error("Datos de login incorrectos")
             error.status = 400
             throw error
         }
 
-        const {Id, Nombre, Apellido, Usuario, Clave, EsAdmin} = usuario[0]
-        
-        return bcrypt.compare(login.clave, Clave)
+        const {id, nombre, apellido, usuario, clave, esadmin} = query.rows[0]
+                
+        return bcrypt.compare(login.clave, clave)
             .then(soniguales => {
                 if (soniguales == true){
                     const token = {
-                    token: sign({Id, Nombre, Apellido, Usuario, EsAdmin})
+                    token: sign({id, nombre, apellido, usuario, esadmin})
                     }
                     return {logeo:true, ...token}
                 

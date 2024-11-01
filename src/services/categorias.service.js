@@ -1,4 +1,4 @@
-const getConnection = require('../data/mysql')
+const getConnection = require('../data/postgresql')
 
 class CategoriasService {
     constructor() { }
@@ -8,7 +8,7 @@ class CategoriasService {
         const select = 
             "SELECT categorias.Id, categorias.Descripcion, categorias.IdUserAlta, a.Nombre as NombreAlta, a.Apellido as ApellidoAlta, categorias.FechaAlta, categorias.IdUserModificacion, b.Nombre as NombreModificacion, b.Apellido as ApellidoModificacion, categorias.FechaModificacion FROM categorias INNER JOIN usuarios a ON(categorias.IdUserAlta = a.Id) LEFT JOIN usuarios b ON(categorias.IdUserModificacion = b.Id) WHERE categorias.FechaBaja IS NULL"
         const query = await connection.query(select)
-        return query
+        return query.rows
     }
 
     async getCategoriasById(id) {
@@ -17,7 +17,7 @@ class CategoriasService {
             "SELECT categorias.Id, categorias.Descripcion, categorias.IdUserAlta, a.Nombre as NombreAlta, a.Apellido as ApellidoAlta, categorias.FechaAlta, categorias.IdUserModificacion, b.Nombre as NombreModificacion, b.Apellido as ApellidoModificacion, categorias.FechaModificacion, categorias.IdUserBaja, c.Nombre as NombreBaja, c.Apellido as ApellidoBaja, categorias.FechaBaja FROM categorias INNER JOIN usuarios a ON(categorias.IdUserAlta = a.Id) LEFT JOIN usuarios b ON(categorias.IdUserModificacion = b.Id) LEFT JOIN usuarios c ON(categorias.IdUserBaja = c.Id) WHERE categorias.Id = ?"
         const selectValues = [id]
         const query = await connection.query(select, selectValues)
-        return query
+        return query.rows
     }
 
     async postCategorias(categoria) {

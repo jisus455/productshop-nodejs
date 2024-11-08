@@ -23,18 +23,18 @@ validatorHandler(consultaProductoPorIdSchema, 'params'),
 controller.getProductosById)
 
 productosRouter.post('/', 
-validatorHandler(crearProductoSchema, 'body'),
 checkAdmin(),
+validatorHandler(crearProductoSchema, 'body'),
 controller.postProductos)
 
 productosRouter.put('/', 
-validatorHandler(modificarProductoSchema, 'body'),
 checkAdmin(),
+validatorHandler(modificarProductoSchema, 'body'),
 controller.putProductos)
 
 productosRouter.delete('/:id', 
-validatorHandler(eliminarProductoSchema, 'params'),
 checkAdmin(),
+validatorHandler(eliminarProductoSchema, 'params'),
 controller.deleteProductos)
 
 

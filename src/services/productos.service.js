@@ -45,7 +45,7 @@ class ProductosService {
         const connection = await getConnection()
 
         const insert =
-        "INSERT INTO productos(Id, Nombre, Descripcion, Precio, IdCategoria, Imagen, IdUserAlta, FechaAlta) VALUES(NULL, $1, $2, $3, $4, $5, $6, NOW())"
+        "INSERT INTO productos(Nombre, Descripcion, Precio, IdCategoria, Imagen, IdUserAlta, FechaAlta) VALUES($1, $2, $3, $4, $5, $6, NOW())"
         const insertValues = [producto.nombre, producto.descripcion, producto.precio, producto.idCategoria, producto.imagen, producto.idusuaccion]
         const query = await connection.query(insert, insertValues)
         return { "id": query.insertId, "nombre": producto.nombre, "descripcion": producto.descripcion, "precio": producto.precio, "imagen": producto.imagen, "idCategoria": producto.idCategoria }

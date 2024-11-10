@@ -5,7 +5,7 @@ function checkAdmin() {
         const datos = decode(req.headers.authorization || "")
         req.body.idusuaccion = datos.id
 
-        if (datos && datos.esadmin === 1) {
+        if (datos && datos.esadmin == 1) {
             next()
         } else {
             const error = new Error("Privilegios insuficientes")

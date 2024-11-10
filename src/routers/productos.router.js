@@ -23,7 +23,7 @@ validatorHandler(consultaProductoPorIdSchema, 'params'),
 controller.getProductosById)
 
 productosRouter.post('/', 
-checkAdmin(),
+//checkAdmin(),
 validatorHandler(crearProductoSchema, 'body'),
 controller.postProductos)
 

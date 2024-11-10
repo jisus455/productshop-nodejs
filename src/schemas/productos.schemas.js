@@ -16,7 +16,8 @@ const crearProductoSchema = joi.object({
     descripcion: descripcion.required(),
     precio: precio.required(),
     idCategoria: idCategoria.required(),
-    imagen: imagen.required()
+    imagen: imagen.required(),
+    //idusuaccion: joi.number().required()
 })
 
 const modificarProductoSchema = joi.object({
